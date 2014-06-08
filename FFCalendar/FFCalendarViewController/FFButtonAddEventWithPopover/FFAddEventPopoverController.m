@@ -94,7 +94,7 @@
     } else if (![self isTimeBeginEarlier:eventNew.dateTimeBegin timeEnd:eventNew.dateTimeEnd]) {
         stringError = @"Start time must occur earlier than end time.";
     } else if (eventNew.arrayWithGuests.count == 0) {
-        stringError = @"Please select a guest.";
+//        stringError = @"Please select a guest.";
     }
     
     if (stringError) {

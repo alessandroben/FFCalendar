@@ -19,5 +19,6 @@
 
 @property (nonatomic, strong) id <FFCalendarViewControllerProtocol> protocol;
 @property (nonatomic, strong) NSMutableArray *arrayWithEvents;
+@property (nonatomic, strong) id addedEvent;
 
 @end
