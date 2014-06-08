@@ -18,5 +18,6 @@
 @property (nonatomic, strong) NSDate *dateTimeBegin;
 @property (nonatomic, strong) NSDate *dateTimeEnd;
 @property (nonatomic, strong) NSMutableArray *arrayWithGuests;
+@property (nonatomic, strong) id dataObject;
 
 @end

@@ -9,7 +9,7 @@
 //
 
 #import "FFCalendarViewController.h"
-
+#import "ITObjectCacher.h"
 #import "FFCalendar.h"
 
 @interface FFCalendarViewController () <FFButtonAddEventWithPopoverProtocol, FFYearCalendarViewProtocol, FFMonthCalendarViewProtocol, FFWeekCalendarViewProtocol, FFDayCalendarViewProtocol>
@@ -234,8 +234,9 @@
 #pragma mark - FFButtonAddEventWithPopover Protocol
 
 - (void)addNewEvent:(FFEvent *)eventNew {
-    _addedEvent = eventNew;
-    [_addedEvent setDateTimeEnd:[[_addedEvent dateTimeBegin] dateByAddingTimeInterval:3600]]; //Every appointments has one hour
+    [eventNew setDateTimeEnd:[[eventNew dateTimeBegin] dateByAddingTimeInterval:3600]]; //Every appointments has one hour
+    [[ITObjectCacher globalCache] storeObject:eventNew withKey:kCalendarEvent];
+
     NSMutableArray *arrayNew = [dictEvents objectForKey:eventNew.dateDay];
     if (!arrayNew) {
         arrayNew = [NSMutableArray new];

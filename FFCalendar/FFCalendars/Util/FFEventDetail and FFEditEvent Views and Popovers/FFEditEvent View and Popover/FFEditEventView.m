@@ -14,6 +14,7 @@
 #import "FFButtonWithHourPopover.h"
 #import "FFSearchBarWithAutoComplete.h"
 #import "FFGuestsTableView.h"
+#import "ITObjectCacher.h"
 
 #import "SVProgressHUD.h"
 
@@ -116,6 +117,7 @@
     eventNew.dateTimeBegin = buttonTimeBegin.dateOfButton;
     eventNew.dateTimeEnd = buttonTimeEnd.dateOfButton;
     eventNew.arrayWithGuests = tableViewGuests.arrayWithSelectedItens;
+    eventNew.dataObject = event.dataObject;
     
     NSString *stringError;
     
@@ -130,6 +132,7 @@
     if (stringError) {
         [SVProgressHUD showErrorWithStatus:stringError];
     } else if (protocol != nil && [protocol respondsToSelector:@selector(saveEvent:)]) {
+        [[ITObjectCacher globalCache] storeObject:eventNew withKey:kCalendarEvent];
         [protocol saveEvent:eventNew];
         [self buttonDeleteAction:nil];
     }
@@ -152,6 +155,7 @@
 - (IBAction)buttonDeleteAction:(id)sender {
     
     if (protocol != nil && [protocol respondsToSelector:@selector(deleteEvent:)]) {
+        [[ITObjectCacher globalCache] storeObject:event withKey:kCalendarEvent];
         [protocol deleteEvent:event];
     }
     

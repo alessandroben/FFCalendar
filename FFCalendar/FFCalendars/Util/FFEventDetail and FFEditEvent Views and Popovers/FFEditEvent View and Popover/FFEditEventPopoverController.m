@@ -29,6 +29,7 @@
 
 - (id)initWithEvent:(FFEvent *)eventInit {
     
+    id sharedObj = [eventInit dataObject];
     if (!eventInit) {
         NSDateComponents *comp = [NSDate componentsOfCurrentDate];
         eventInit = [FFEvent new];
@@ -36,6 +37,8 @@
         eventInit.dateDay = [NSDate date];
         eventInit.dateTimeBegin = [NSDate dateWithHour:comp.hour min:comp.minute];
         eventInit.dateTimeEnd = [NSDate dateWithHour:comp.hour min:comp.minute+15];
+        eventInit.dataObject = sharedObj;
+        
     }
     
     event = eventInit;
