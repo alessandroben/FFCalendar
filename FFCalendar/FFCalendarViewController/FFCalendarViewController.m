@@ -235,7 +235,7 @@
 
 - (void)addNewEvent:(FFEvent *)eventNew {
     _addedEvent = eventNew;
-    [_addedEvent setEndTime:[[_addedEvent startTime] dateByAddingTimeInterval:3600]]; //Every appointments has one hour
+    [_addedEvent setDateTimeEnd:[[_addedEvent dateTimeBegin] dateByAddingTimeInterval:3600]]; //Every appointments has one hour
     NSMutableArray *arrayNew = [dictEvents objectForKey:eventNew.dateDay];
     if (!arrayNew) {
         arrayNew = [NSMutableArray new];
