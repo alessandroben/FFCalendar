@@ -121,7 +121,7 @@
 
 - (void)updateArrayWithAllContacts {
     
-    arrayWithAllContacts = @[@[@111, @"Guest 1", @"email1@mail.com"], @[@111, @"Guest 2", @"email2@email.com"], @[@111, @"Guest 3", @"email3@email.com"], @[@111, @"Guest 4", @"email4@email.com"], @[@111, @"Guest 5", @"email5@email.com"], @[@111, @"Guest 6", @"email6@email.com"], @[@111, @"Guest 7", @"email7@email.com"]];
+    arrayWithAllContacts = @[];
 }
 
 @end
