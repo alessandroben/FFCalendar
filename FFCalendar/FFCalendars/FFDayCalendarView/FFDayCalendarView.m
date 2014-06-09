@@ -22,6 +22,7 @@
 @property (nonatomic, strong) FFEventDetailView *viewDetail;
 @property (nonatomic, strong) FFEditEventView *viewEdit;
 @property (nonatomic) BOOL boolAnimate;
+@property (nonatomic, strong) FFDayCell *displayCell;
 @end
 
 @implementation FFDayCalendarView
@@ -110,12 +111,13 @@
 #pragma mark - Tap Gesture
 
 - (void)handleTap:(UITapGestureRecognizer *)recognizer {
-    
     for (UIView *subviews in self.subviews) {
         if ([subviews isKindOfClass:[FFEventDetailView class]] || [subviews isKindOfClass:[FFEditEventView class]]) {
             [subviews removeFromSuperview];
         }
     }
+    [_displayCell unselectedAll];
+    _displayCell = nil;
 }
 
 #pragma mark - UIGestureRecognizer Delegate
@@ -156,6 +158,8 @@
     [viewDetail setAutoresizingMask:AR_WIDTH_HEIGHT | UIViewAutoresizingFlexibleLeftMargin];
     [viewDetail setProtocol:self];
     [self addSubview:viewDetail];
+    
+    _displayCell = (FFDayCell *)cell;
 }
 
 #pragma mark - FFEventDetailView Protocol
@@ -201,7 +205,8 @@
 }
 
 - (void)removeThisView:(UIView *)view {
-    
+    _displayCell = nil;
+    [_displayCell unselectedAll];
     [view removeFromSuperview];
     view = nil;
 }

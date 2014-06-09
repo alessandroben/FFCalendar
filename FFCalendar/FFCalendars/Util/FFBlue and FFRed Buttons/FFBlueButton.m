@@ -33,6 +33,15 @@
         [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [self setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
+        
+        self.layer.borderWidth = 1.0f;
+        self.layer.borderColor = [[UIColor clearColor] CGColor];
+        self.layer.cornerRadius = 5.0f;
+        self.layer.shadowColor = [[UIColor clearColor] CGColor];
+        self.layer.shouldRasterize = YES;
+        self.layer.shadowOffset = CGSizeMake(0.0f, 4.0f);
+        self.layer.shadowRadius = 5.0f;
+        self.layer.shadowOpacity = 0.0f;
     }
     return self;
 }

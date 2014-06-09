@@ -45,6 +45,7 @@
         arrayButtonsEvents = [NSMutableArray new];
         
         [self addLines];
+        [self updateColors];
     }
     return self;
 }
@@ -145,6 +146,9 @@
             [_button addTarget:self action:@selector(buttonAction:) forControlEvents:UIControlEventTouchUpInside];
             [_button setTitle:event.stringCustomerName forState:UIControlStateNormal];
             [_button setEvent:event];
+            [_button setBackgroundColor:[self backgroundColorHighlighted:(_button == button)]];
+            [_button.titleLabel setTextColor:[self textColorHighlighted:(_button == button)]];
+            [_button.layer setBorderColor:[[self borderColor] CGColor]];
             
             [arrayButtonsEvents addObject:_button];
             [self addSubview:_button];
@@ -155,41 +159,87 @@
 #pragma mark - Button Action
 
 - (IBAction)buttonAction:(id)sender {
-    
+
     button = (FFBlueButton *)sender;
+    
+    [self updateColors];
     
     if (protocol != nil && [protocol respondsToSelector:@selector(showViewDetailsWithEvent:cell:)]) {
         [protocol showViewDetailsWithEvent:button.event cell:self];
     }
 }
 
-//#pragma mark - FFEventDetailPopoverController Protocol
-//
-//- (void)showPopoverEditWithEvent:(Event *)_event {
-//    
-//    popoverControllerEditar = [[FFEditEventPopoverController alloc] initWithEvent:_event];
-//    [popoverControllerEditar setProtocol:self];
-//    
-//    [popoverControllerEditar presentPopoverFromRect:button.frame
-//                                             inView:self
-//                           permittedArrowDirections:UIPopoverArrowDirectionAny
-//                                           animated:YES];
-//}
-//
-//#pragma mark - FFEditEventPopoverController Protocol
-//
-//- (void)saveEditedEvent:(Event *)eventNew {
-//    
-//    if (protocol != nil && [protocol respondsToSelector:@selector(saveEditedEvent:ofCell:atIndex:)]) {
-//        [protocol saveEditedEvent:eventNew ofCell:self atIndex:[arrayButtonsEvents indexOfObject:button]];
-//    }
-//}
-//
-//- (void)deleteEvent {
-//
-//    if (protocol != nil && [protocol respondsToSelector:@selector(deleteEventOfCell:atIndex:)]) {
-//        [protocol deleteEventOfCell:self atIndex:[arrayButtonsEvents indexOfObject:button]];
-//    }
-//}
+#pragma mark - AD Customization
+
+-(void)unselectedAll
+{
+    //No more cell selected
+    
+    button = nil;
+    [self updateColors];
+}
+
+- (void)updateColors
+{
+    for(FFBlueButton *currButton in arrayButtonsEvents)
+    {
+        BOOL isHighlighted = (button==currButton);
+        [currButton.titleLabel setTextColor:[self textColorHighlighted:isHighlighted]];
+        [currButton setBackgroundColor:[self backgroundColorHighlighted:isHighlighted]];
+        [currButton.layer setShadowOpacity:(isHighlighted ? 1.0 : 0.0)];
+        [currButton.layer setShadowColor:[[self shadowColorHighlighted:isHighlighted] CGColor]];
+        
+        if (isHighlighted)
+            [self bringSubviewToFront:currButton];
+    }
+    
+    [self bringSubviewToFront:labelRed];
+}
+
+- (NSDictionary *)titleAttributesHighlighted:(BOOL)highlighted
+{
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    paragraphStyle.hyphenationFactor = 1.0;
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    return @{
+             NSFontAttributeName : [UIFont boldSystemFontOfSize:12.0],
+             NSForegroundColorAttributeName : [self textColorHighlighted:highlighted],
+             NSParagraphStyleAttributeName : paragraphStyle
+             };
+}
+
+- (NSDictionary *)subtitleAttributesHighlighted:(BOOL)highlighted
+{
+    NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+    paragraphStyle.alignment = NSTextAlignmentLeft;
+    paragraphStyle.hyphenationFactor = 1.0;
+    paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
+    return @{
+             NSFontAttributeName : [UIFont systemFontOfSize:12.0],
+             NSForegroundColorAttributeName : [self textColorHighlighted:highlighted],
+             NSParagraphStyleAttributeName : paragraphStyle
+             };
+}
+
+- (UIColor *)backgroundColorHighlighted:(BOOL)selected
+{
+    return [UIColor colorWithHexString:(selected ? @"35b1f1" : @"d2ebf9")];
+}
+
+- (UIColor *)shadowColorHighlighted:(BOOL)selected
+{
+    return selected ? [[UIColor colorWithHexString:@"000000"] colorWithAlphaComponent:.5f] : [UIColor clearColor];
+}
+
+- (UIColor *)textColorHighlighted:(BOOL)selected
+{
+    return selected ? [UIColor whiteColor] : [UIColor colorWithHexString:@"21729c"];
+}
+
+- (UIColor *)borderColor
+{
+    return [self backgroundColorHighlighted:YES];
+}
 
 @end

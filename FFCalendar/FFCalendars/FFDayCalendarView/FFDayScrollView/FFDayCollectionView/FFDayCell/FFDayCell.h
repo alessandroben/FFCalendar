@@ -23,5 +23,6 @@
 @property (nonatomic, strong) NSDate *date;
 
 - (void)showEvents:(NSArray *)array;
+-(void)unselectedAll;
 
 @end
