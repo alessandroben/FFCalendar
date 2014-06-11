@@ -160,7 +160,7 @@
 - (void)addButtonDoneWithCustomView:(UIView *)customView {
     
     buttonDone = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self customLayoutOfButton:buttonDone withTitle:@"Fattp" action:@selector(buttonDoneAction:) frame:CGRectMake(buttonCancel.superview.frame.size.width-80-10, buttonCancel.frame.origin.y, 80, buttonCancel.frame.size.height)];
+    [self customLayoutOfButton:buttonDone withTitle:@"Fatto" action:@selector(buttonDoneAction:) frame:CGRectMake(buttonCancel.superview.frame.size.width-80-10, buttonCancel.frame.origin.y, 80, buttonCancel.frame.size.height)];
     [buttonCancel.superview addSubview:buttonDone];
 }
 

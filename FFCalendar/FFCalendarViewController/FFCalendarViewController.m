@@ -133,7 +133,7 @@
     
     FFRedAndWhiteButton *buttonYear = [self calendarButtonWithTitle:@"Anno"];
     FFRedAndWhiteButton *buttonMonth = [self calendarButtonWithTitle:@"Mese"];
-    FFRedAndWhiteButton *buttonWeek = [self calendarButtonWithTitle:@"Settimana"];
+    FFRedAndWhiteButton *buttonWeek = [self calendarButtonWithTitle:@"Sett"];
     FFRedAndWhiteButton *buttonDay = [self calendarButtonWithTitle:@"Giorno"];
     
     UIBarButtonItem *barButtonYear = [[UIBarButtonItem alloc] initWithCustomView:buttonYear];
