@@ -87,8 +87,6 @@
     [arrayWithFirstDay replaceObjectAtIndex:section withObject:dateFirstDayOfMonth];
     NSDateComponents *componentsFirstDayOfMonth = [NSDate componentsOfDate:dateFirstDayOfMonth];
     
-    NSLog(@"Weekday:%i", componentsFirstDayOfMonth.weekday);
-    
     int lastDayMonth = [dateFirstDayOfMonth numberOfDaysInMonthCount];
     int numOfCellsInCollection = [dateFirstDayOfMonth numberOfWeekInMonthCount]*7;
     

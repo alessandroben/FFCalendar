@@ -23,10 +23,13 @@ typedef enum ScrollDirection {
 //#define arrayWeekAbrev @[@"dom", @"seg", @"ter", @"qua", @"qui", @"sex", @"sáb"]
 //#define arrayMonthName @[@"Janeiro", @"Fevereiro", @"Março", @"Abril", @"Maio", @"Junho", @"Julho", @"Agosto", @"Setembro", @"Outubro", @"Novembro", @"Dezembro"]
 
-#define dictWeekNumberName @{@1:@"Lunedi", @2:@"Martedi", @3:@"Mercoledi", @4:@"Giovedi", @5:@"Venerdi", @6:@"Sabato", @7:@"Domenica"}
-#define arrayWeekAbrev @[@"Lun", @"Mar", @"Mer", @"Gio", @"Ven", @"Sab", @"Dom"]
-#define arrayMonthName @[@"Gennaio", @"Gebbraio", @"Marzo", @"Aprile", @"Maggio", @"Giugno", @"Luglio", @"Agosto", @"Settembre", @"Ottobre", @"Novembre", @"Dicembre"]
-#define arrayMonthNameAbrev @[@"Gen", @"Feb", @"Mar", @"Apr", @"Mag", @"Giu", @"Lug", @"Ago", @"Set", @"Ott", @"Nov", @"Dic"]
+#define dictWeekNumberName @{@1:NSLocalizedString(@"kMonday","Calendario"), @2:NSLocalizedString(@"kTuesday","Calendario"), @3:NSLocalizedString(@"kWednesday","Calendario"), @4:NSLocalizedString(@"kThursday","Calendario"), @5:NSLocalizedString(@"kFriday","Calendario"), @6:NSLocalizedString(@"kSaturday","Calendario"), @7:NSLocalizedString(@"kSunday","Calendario")}
+
+#define arrayWeekAbrev @[NSLocalizedString(@"kMon","Calendario"),NSLocalizedString(@"kTue","Calendario"),NSLocalizedString(@"kWed","Calendario"),NSLocalizedString(@"kThu","Calendario"),NSLocalizedString(@"kFri","Calendario"),NSLocalizedString(@"kSat","Calendario"),NSLocalizedString(@"kSun","Calendario")]
+
+#define arrayMonthName @[NSLocalizedString(@"kJanuary","Calendario"),NSLocalizedString(@"kFebruary","Calendario"),NSLocalizedString(@"kMarch","Calendario"),NSLocalizedString(@"kApril","Calendario"),NSLocalizedString(@"kMay","Calendario"),NSLocalizedString(@"kJune","Calendario"),NSLocalizedString(@"kJuly","Calendario"),NSLocalizedString(@"kAugust","Calendario"),NSLocalizedString(@"kSeptember","Calendario"),NSLocalizedString(@"kOctober","Calendario"),NSLocalizedString(@"kNovember","Calendario"),NSLocalizedString(@"kDecember","Calendario")]
+
+#define arrayMonthNameAbrev @[NSLocalizedString(@"kJen","Calendario"),NSLocalizedString(@"kFeb","Calendario"),NSLocalizedString(@"kMar","Calendario"),NSLocalizedString(@"kApr","Calendario"),NSLocalizedString(@"kMay","Calendario"),NSLocalizedString(@"kJun","Calendario"),NSLocalizedString(@"kJul","Calendario"),NSLocalizedString(@"kAug","Calendario"),NSLocalizedString(@"kSep","Calendario"),NSLocalizedString(@"kOct","Calendario"),NSLocalizedString(@"kNov","Calendario"),NSLocalizedString(@"kDec","Calendario")]
 
 
 #define BUTTON_HEIGHT 44.
