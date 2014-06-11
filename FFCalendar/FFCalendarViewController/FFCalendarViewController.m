@@ -131,10 +131,10 @@
     UIBarButtonItem *fixedItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     fixedItem.width = 30.;
     
-    FFRedAndWhiteButton *buttonYear = [self calendarButtonWithTitle:@"year"];
-    FFRedAndWhiteButton *buttonMonth = [self calendarButtonWithTitle:@"month"];
-    FFRedAndWhiteButton *buttonWeek = [self calendarButtonWithTitle:@"week"];
-    FFRedAndWhiteButton *buttonDay = [self calendarButtonWithTitle:@"day"];
+    FFRedAndWhiteButton *buttonYear = [self calendarButtonWithTitle:@"Anno"];
+    FFRedAndWhiteButton *buttonMonth = [self calendarButtonWithTitle:@"Mese"];
+    FFRedAndWhiteButton *buttonWeek = [self calendarButtonWithTitle:@"Settimana"];
+    FFRedAndWhiteButton *buttonDay = [self calendarButtonWithTitle:@"Giorno"];
     
     UIBarButtonItem *barButtonYear = [[UIBarButtonItem alloc] initWithCustomView:buttonYear];
     UIBarButtonItem *barButtonMonth = [[UIBarButtonItem alloc] initWithCustomView:buttonMonth];
@@ -156,7 +156,7 @@
     
     FFRedAndWhiteButton *buttonToday = [[FFRedAndWhiteButton alloc] initWithFrame:CGRectMake(0., 0., 80., 30)];
     [buttonToday addTarget:self action:@selector(buttonTodayAction:) forControlEvents:UIControlEventTouchUpInside];
-    [buttonToday setTitle:@"today" forState:UIControlStateNormal];
+    [buttonToday setTitle:@"Oggi" forState:UIControlStateNormal];
     UIBarButtonItem *barButtonToday = [[UIBarButtonItem alloc] initWithCustomView:buttonToday];
     
     labelWithMonthAndYear = [[UILabel alloc] initWithFrame:CGRectMake(0., 0., 170., 30)];

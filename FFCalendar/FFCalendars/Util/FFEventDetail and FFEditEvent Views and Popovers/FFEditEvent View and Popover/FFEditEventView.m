@@ -180,7 +180,7 @@
     
     buttonCancel = [UIButton buttonWithType:UIButtonTypeCustom];
     [buttonCancel setAutoresizingMask:UIViewAutoresizingFlexibleRightMargin];
-    [self customLayoutOfButton:buttonCancel withTitle:@"Cancel" action:@selector(buttonCancelAction:) frame:CGRectMake(20, 0, 80, BUTTON_HEIGHT+30)];
+    [self customLayoutOfButton:buttonCancel withTitle:@"Annulla" action:@selector(buttonCancelAction:) frame:CGRectMake(20, 0, 80, BUTTON_HEIGHT+30)];
     [view addSubview:buttonCancel];
 }
 
@@ -188,7 +188,7 @@
     
     buttonDone = [UIButton buttonWithType:UIButtonTypeCustom];
     [buttonDone setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin];
-    [self customLayoutOfButton:buttonDone withTitle:@"Done" action:@selector(buttonDoneAction:) frame:CGRectMake(buttonCancel.superview.frame.size.width-80-10, buttonCancel.frame.origin.y, 80, buttonCancel.frame.size.height)];
+    [self customLayoutOfButton:buttonDone withTitle:@"Fatto" action:@selector(buttonDoneAction:) frame:CGRectMake(buttonCancel.superview.frame.size.width-80-10, buttonCancel.frame.origin.y, 80, buttonCancel.frame.size.height)];
     [buttonCancel.superview addSubview:buttonDone];
 }
 

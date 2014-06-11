@@ -153,14 +153,14 @@
     [customView addSubview:view];
     
     buttonCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self customLayoutOfButton:buttonCancel withTitle:@"Cancel" action:@selector(buttonCancelAction:) frame:CGRectMake(20, 0, 80, BUTTON_HEIGHT+30)];
+    [self customLayoutOfButton:buttonCancel withTitle:@"Annulla" action:@selector(buttonCancelAction:) frame:CGRectMake(20, 0, 80, BUTTON_HEIGHT+30)];
     [view addSubview:buttonCancel];
 }
 
 - (void)addButtonDoneWithCustomView:(UIView *)customView {
     
     buttonDone = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self customLayoutOfButton:buttonDone withTitle:@"Done" action:@selector(buttonDoneAction:) frame:CGRectMake(buttonCancel.superview.frame.size.width-80-10, buttonCancel.frame.origin.y, 80, buttonCancel.frame.size.height)];
+    [self customLayoutOfButton:buttonDone withTitle:@"Fattp" action:@selector(buttonDoneAction:) frame:CGRectMake(buttonCancel.superview.frame.size.width-80-10, buttonCancel.frame.origin.y, 80, buttonCancel.frame.size.height)];
     [buttonCancel.superview addSubview:buttonDone];
 }
 

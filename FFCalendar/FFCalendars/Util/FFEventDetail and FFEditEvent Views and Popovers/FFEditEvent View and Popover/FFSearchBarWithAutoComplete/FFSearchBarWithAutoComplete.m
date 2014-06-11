@@ -50,7 +50,7 @@
      
         [self setDelegate:self];
         [self setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
-        [self setPlaceholder:@"Customer"];
+        [self setPlaceholder:@"Cliente"];
         [[UITextField appearanceWhenContainedIn:[FFSearchBarWithAutoComplete class], nil] setFont:[UIFont systemFontOfSize:18.]];
         [[UITextField appearanceWhenContainedIn:[FFSearchBarWithAutoComplete class], nil] setTextAlignment:NSTextAlignmentCenter];
     }
