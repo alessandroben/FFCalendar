@@ -23,7 +23,7 @@ typedef enum ScrollDirection {
 //#define arrayWeekAbrev @[@"dom", @"seg", @"ter", @"qua", @"qui", @"sex", @"sáb"]
 //#define arrayMonthName @[@"Janeiro", @"Fevereiro", @"Março", @"Abril", @"Maio", @"Junho", @"Julho", @"Agosto", @"Setembro", @"Outubro", @"Novembro", @"Dezembro"]
 
-#define dictWeekNumberName @{@1:@"Lunedi", @2:@"Martedi", @3:@"Mercoledi", @4:@"Giovedi", @5:@"Venerdi", @6:@"Sabato", 71:@"Domenica"}
+#define dictWeekNumberName @{@1:@"Lunedi", @2:@"Martedi", @3:@"Mercoledi", @4:@"Giovedi", @5:@"Venerdi", @6:@"Sabato", @7:@"Domenica"}
 #define arrayWeekAbrev @[@"Lun", @"Mar", @"Mer", @"Gio", @"Ven", @"Sab", @"Dom"]
 #define arrayMonthName @[@"Gennaio", @"Gebbraio", @"Marzo", @"Aprile", @"Maggio", @"Giugno", @"Luglio", @"Agosto", @"Settembre", @"Ottobre", @"Novembre", @"Dicembre"]
 #define arrayMonthNameAbrev @[@"Gen", @"Feb", @"Mar", @"Apr", @"Mag", @"Giu", @"Lug", @"Ago", @"Set", @"Ott", @"Nov", @"Dic"]
