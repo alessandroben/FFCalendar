@@ -17,7 +17,6 @@
 - (void)addNewEvent:(FFEvent *)eventNew;
 @end
 
-
 @interface FFAddEventPopoverController : UIPopoverController
 
 @property (nonatomic, strong) id<FFAddEventPopoverControllerProtocol> protocol;

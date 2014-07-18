@@ -10,6 +10,18 @@
 
 #import <Foundation/Foundation.h>
 
+typedef NS_ENUM(NSInteger, FFEventStatus) {
+    FFEventStatusPositive = 1,
+    FFEventStatusNegative = 2,
+    FFEventStatusRedo = 3
+};
+
+@protocol FFEventDelegate <NSObject>
+
+-(void)event:(id)event changeStatus:(FFEventStatus)status;
+
+@end
+
 @interface FFEvent : NSObject
 
 @property (nonatomic, strong) NSString *stringCustomerName;
@@ -19,5 +31,6 @@
 @property (nonatomic, strong) NSDate *dateTimeEnd;
 @property (nonatomic, strong) NSMutableArray *arrayWithGuests;
 @property (nonatomic, strong) id dataObject;
+@property (nonatomic, strong) id<FFEventDelegate> delegate;
 
 @end

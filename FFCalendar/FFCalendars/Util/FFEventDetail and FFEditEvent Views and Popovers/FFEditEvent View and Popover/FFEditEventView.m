@@ -91,6 +91,8 @@
         [self addButtonTimeEnd];
         [self addButtonDelete];
         [self addtableViewGuests];
+        
+        [self addEsitoButtonWithCustomView:self];
     }
     return self;
 }
@@ -101,6 +103,38 @@
     
     if (protocol != nil && [protocol respondsToSelector:@selector(removeThisView:)]) {
         [protocol removeThisView:self];
+    }
+}
+
+-(void)addEsitoButtonWithCustomView:(UIView *)customView
+{
+    UIButton *positive = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+2, 100, 30)];
+    [positive addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [positive setTitle:@"Positivo" forState:UIControlStateNormal];
+    [positive setTag:FFEventStatusPositive];
+    
+    UIButton *negative = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+2, 100, 30)];
+    [negative addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [negative setTitle:@"Negativo" forState:UIControlStateNormal];
+    [negative setTag:FFEventStatusNegative];
+    
+    [customView addSubview:positive];
+    [customView addSubview:negative];
+    
+    [positive setCenter:CGPointMake(customView.frame.size.width/4+20, positive.center.y)];
+    [negative setCenter:CGPointMake(customView.frame.size.width*3/4-20, positive.center.y)];
+    
+    [self addSubview:positive];
+    [self addSubview:negative];
+}
+
+-(void)esitoButtonPressed:(UIButton *)sender
+{
+    FFEventStatus status = sender.tag;
+    
+    if([self.event.delegate respondsToSelector:@selector(event:changeStatus:)])
+    {
+        [self.event.delegate event:self.event changeStatus:status];
     }
 }
 
@@ -173,14 +207,14 @@
 
 - (void)addButtonCancel {
     
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, BUTTON_HEIGHT+30)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, BUTTON_HEIGHT)];
     [view setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
     [view setBackgroundColor:[UIColor lighterGrayCustom]];
     [self addSubview:view];
     
     buttonCancel = [UIButton buttonWithType:UIButtonTypeCustom];
     [buttonCancel setAutoresizingMask:UIViewAutoresizingFlexibleRightMargin];
-    [self customLayoutOfButton:buttonCancel withTitle:@"Annulla" action:@selector(buttonCancelAction:) frame:CGRectMake(20, 0, 80, BUTTON_HEIGHT+30)];
+    [self customLayoutOfButton:buttonCancel withTitle:@"Annulla" action:@selector(buttonCancelAction:) frame:CGRectMake(20, 0, 80, BUTTON_HEIGHT)];
     [view addSubview:buttonCancel];
 }
 
@@ -226,7 +260,7 @@
     
     buttonDelete = [UIButton buttonWithType:UIButtonTypeCustom];
     [buttonDelete setAutoresizingMask:UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin];
-    [self customLayoutOfButton:buttonDelete withTitle:@"Delete Event" action:@selector(buttonDeleteAction:) frame:CGRectMake(0, self.frame.size.height-2*BUTTON_HEIGHT, self.frame.size.width, 2*BUTTON_HEIGHT)];
+    [self customLayoutOfButton:buttonDelete withTitle:@"Delete Event" action:@selector(buttonDeleteAction:) frame:CGRectMake(0, self.frame.size.height-1.2*BUTTON_HEIGHT, self.frame.size.width, 1.2*BUTTON_HEIGHT)];
     [buttonDelete setBackgroundColor:[UIColor whiteColor]];
     [self addSubview:buttonDelete];
     
@@ -242,7 +276,7 @@
     tableViewGuests = [[FFGuestsTableView alloc] initWithFrame:CGRectMake(0, y, self.frame.size.width,buttonDelete.frame.origin.y-y-BUTTON_HEIGHT)];
     [tableViewGuests setAutoresizingMask:AR_WIDTH_HEIGHT];
     [tableViewGuests setArrayWithSelectedItens:event.arrayWithGuests];
-    [self addSubview:tableViewGuests];
+//    [self addSubview:tableViewGuests];
 }
 
 #pragma mark - Button Layout

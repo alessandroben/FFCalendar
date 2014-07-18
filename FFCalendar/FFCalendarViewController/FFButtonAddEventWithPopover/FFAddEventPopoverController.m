@@ -58,8 +58,8 @@
     event.arrayWithGuests = nil;
     
     popoverContent = [UIViewController new];
-    popoverContent.view = [self customViewViewFrame:CGRectMake(0., 0., 300., 700.)];
-    popoverContent.preferredContentSize = CGSizeMake(300., 700.);
+    popoverContent.view = [self customViewViewFrame:CGRectMake(0., 0., 300., 390)];
+    popoverContent.preferredContentSize = CGSizeMake(300., 390);
     
     self = [super initWithContentViewController:popoverContent];
     
@@ -136,6 +136,7 @@
     [self addButtonTimeBeginWithCustomView:viewCustom];
     [self addButtonTimeEndWithCustomView:viewCustom];
     [self addtableViewGuestsWithCustomView:viewCustom];
+    [self addEsitoButtonWithCustomView:viewCustom];
     
     UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
     [gesture setDelegate:self];
@@ -188,12 +189,45 @@
     [customView addSubview:buttonTimeEnd];
 }
 
+-(void)addEsitoButtonWithCustomView:(UIView *)customView
+{
+    UIButton *positive = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+2, 100, 30)];
+    [positive addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [positive setTitle:@"Positivo" forState:UIControlStateNormal];
+    [positive setTag:FFEventStatusPositive];
+    
+    UIButton *negative = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+2, 100, 30)];
+    [negative addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [negative setTitle:@"Negativo" forState:UIControlStateNormal];
+    [negative setTag:FFEventStatusNegative];
+    
+//    [customView addSubview:positive];
+//    [customView addSubview:negative];
+    
+    [positive setCenter:CGPointMake(customView.frame.size.width/4+20, positive.center.y)];
+    [negative setCenter:CGPointMake(customView.frame.size.width*3/4-20, positive.center.y)];
+    
+}
+
+-(void)esitoButtonPressed:(UIButton *)sender
+{
+    FFEventStatus status = sender.tag;
+    
+    if([self.event.delegate respondsToSelector:@selector(event:changeStatus:)])
+    {
+       [self.event.delegate event:self.event changeStatus:status];
+    }
+}
+
 - (void)addtableViewGuestsWithCustomView:(UIView *)customView {
     
     CGFloat y = buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+BUTTON_HEIGHT;
     
     tableViewGuests = [[FFGuestsTableView alloc] initWithFrame:CGRectMake(0, y, customView.frame.size.width,customView.frame.size.height-y)];
-    [customView addSubview:tableViewGuests];
+//    [customView addSubview:tableViewGuests];
+    /*
+     TODO: HERE PUT CODE THAT YOU NEED
+     */
 }
 
 #pragma mark - Button Layout
