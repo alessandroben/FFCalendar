@@ -70,6 +70,7 @@
 
 - (IBAction)buttonCancelAction:(id)sender {
     
+    
     [self dismissPopoverAnimated:YES];
 }
 
@@ -86,6 +87,7 @@
     eventNew.dateTimeBegin = buttonTimeBegin.dateOfButton;
     eventNew.dateTimeEnd = buttonTimeEnd.dateOfButton;
     eventNew.arrayWithGuests = tableViewGuests.arrayWithSelectedItens;
+    eventNew.delegate = self.event.delegate;
     
     NSString *stringError;
     
