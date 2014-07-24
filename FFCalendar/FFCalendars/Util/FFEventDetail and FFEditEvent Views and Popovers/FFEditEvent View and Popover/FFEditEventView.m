@@ -108,12 +108,16 @@
 
 -(void)addEsitoButtonWithCustomView:(UIView *)customView
 {
-    UIButton *positive = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+2, 100, 30)];
+    UIButton *positive = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+35, 150, 50)];
+    positive.layer.cornerRadius = 5.0f;
+    positive.backgroundColor = [UIColor colorWithHexString:@"2ecc71"];
     [positive addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [positive setTitle:@"Positivo" forState:UIControlStateNormal];
     [positive setTag:FFEventStatusPositive];
     
-    UIButton *negative = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+2, 100, 30)];
+    UIButton *negative = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+35, 150, 50)];
+    negative.layer.cornerRadius = 5.0f;
+    negative.backgroundColor = [UIColor colorWithHexString:@"e74c3c"];
     [negative addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [negative setTitle:@"Negativo" forState:UIControlStateNormal];
     [negative setTag:FFEventStatusNegative];
@@ -121,8 +125,8 @@
     [customView addSubview:positive];
     [customView addSubview:negative];
     
-    [positive setCenter:CGPointMake(customView.frame.size.width/4+20, positive.center.y)];
-    [negative setCenter:CGPointMake(customView.frame.size.width*3/4-20, positive.center.y)];
+    [positive setCenter:CGPointMake(customView.frame.size.width/4+15, positive.center.y)];
+    [negative setCenter:CGPointMake(customView.frame.size.width*3/4-15, positive.center.y)];
     
     [self addSubview:positive];
     [self addSubview:negative];
