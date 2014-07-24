@@ -128,8 +128,8 @@
     [positive setCenter:CGPointMake(customView.frame.size.width/4+15, positive.center.y)];
     [negative setCenter:CGPointMake(customView.frame.size.width*3/4-15, positive.center.y)];
     
-    [self addSubview:positive];
-    [self addSubview:negative];
+//    [self addSubview:positive];
+//    [self addSubview:negative];
 }
 
 -(void)esitoButtonPressed:(UIButton *)sender
@@ -156,6 +156,7 @@
     eventNew.dateTimeEnd = buttonTimeEnd.dateOfButton;
     eventNew.arrayWithGuests = tableViewGuests.arrayWithSelectedItens;
     eventNew.dataObject = event.dataObject;
+    eventNew.delegate = event.delegate;
     
     NSString *stringError;
     

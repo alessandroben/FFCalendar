@@ -30,6 +30,7 @@
 - (id)initWithEvent:(FFEvent *)eventInit {
     
     id sharedObj = [eventInit dataObject];
+    id delegateObj = [eventInit delegate];
     if (!eventInit) {
         NSDateComponents *comp = [NSDate componentsOfCurrentDate];
         eventInit = [FFEvent new];
@@ -38,6 +39,7 @@
         eventInit.dateTimeBegin = [NSDate dateWithHour:comp.hour min:comp.minute];
         eventInit.dateTimeEnd = [NSDate dateWithHour:comp.hour min:comp.minute+15];
         eventInit.dataObject = sharedObj;
+        eventInit.delegate = delegateObj;
         
     }
     
