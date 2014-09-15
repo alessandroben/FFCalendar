@@ -16,6 +16,12 @@ typedef NS_ENUM(NSInteger, FFEventStatus) {
     FFEventStatusRedo = 3
 };
 
+typedef NS_ENUM(NSInteger, FFEventType) {
+    FFEventTypeCall = 1, //Have to be always first
+    FFEventTypeVisit = 2,
+    FFEventTypeEmail = 3 //Have to be always last
+};
+
 @protocol FFEventDelegate <NSObject>
 
 -(void)event:(id)event changeStatus:(FFEventStatus)status;
@@ -30,6 +36,7 @@ typedef NS_ENUM(NSInteger, FFEventStatus) {
 @property (nonatomic, strong) NSDate *dateTimeBegin;
 @property (nonatomic, strong) NSDate *dateTimeEnd;
 @property (nonatomic, strong) NSMutableArray *arrayWithGuests;
+@property (nonatomic, strong) NSNumber *type;
 @property (nonatomic, strong) id dataObject;
 @property (nonatomic, strong) id<FFEventDelegate> delegate;
 

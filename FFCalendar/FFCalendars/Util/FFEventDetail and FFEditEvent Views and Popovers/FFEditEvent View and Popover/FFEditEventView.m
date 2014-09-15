@@ -91,6 +91,7 @@
         [self addButtonTimeEnd];
         [self addButtonDelete];
         [self addtableViewGuests];
+        [self addEventTyeSegmentedControl];
         
         [self addEsitoButtonWithCustomView:self];
     }
@@ -108,14 +109,14 @@
 
 -(void)addEsitoButtonWithCustomView:(UIView *)customView
 {
-    UIButton *positive = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+35, 150, 50)];
+    UIButton *positive = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+70, 150, 50)];
     positive.layer.cornerRadius = 5.0f;
     positive.backgroundColor = [UIColor colorWithHexString:@"2ecc71"];
     [positive addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [positive setTitle:@"Positivo" forState:UIControlStateNormal];
     [positive setTag:FFEventStatusPositive];
     
-    UIButton *negative = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+35, 150, 50)];
+    UIButton *negative = [[UIButton alloc] initWithFrame:CGRectMake(0, buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+70, 150, 50)];
     negative.layer.cornerRadius = 5.0f;
     negative.backgroundColor = [UIColor colorWithHexString:@"e74c3c"];
     [negative addTarget:self action:@selector(esitoButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -284,6 +285,18 @@
 //    [self addSubview:tableViewGuests];
 }
 
+-(void)addEventTyeSegmentedControl {
+    CGFloat y = buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+(BUTTON_HEIGHT/2);
+    UISegmentedControl *segmentedControl = [[UISegmentedControl alloc] initWithItems:@[@"Telefonata",@"Visita",@"Email"]];
+    [segmentedControl setFrame:CGRectMake(self.frame.size.width*0.1, y, self.frame.size.width*0.8,40)];
+    [segmentedControl addTarget:self action:@selector(didSelectEventTypeFromSender:) forControlEvents:UIControlEventValueChanged];
+    
+    if (event.type>0 && [event.type integerValue] < segmentedControl.numberOfSegments)
+        [segmentedControl setSelectedSegmentIndex:[event.type integerValue]];
+    
+    [self addSubview:segmentedControl];
+}
+
 #pragma mark - Button Layout
 
 - (void)customLayoutOfButton:(UIButton *)button withTitle:(NSString *)title action:(SEL)action frame:(CGRect)frame {
@@ -294,6 +307,18 @@
     [button.titleLabel setFont:[UIFont boldSystemFontOfSize:button.titleLabel.font.pointSize]];
     [button setFrame:frame];
     [button setContentMode:UIViewContentModeScaleAspectFit];
+}
+
+#pragma mark - Segmented Control Action
+
+-(void)didSelectEventTypeFromSender:(UISegmentedControl *)sender
+{
+    NSNumber *eventType = @(sender.selectedSegmentIndex);
+    
+    for (NSInteger currentType = FFEventTypeCall;currentType <= FFEventTypeVisit;currentType++)
+        [AppointmentType findOrCreateWithValue:@(currentType) completionHandler:nil];
+    
+    event.type = eventType;
 }
 
 #pragma mark - UIGestureRecognizer Delegate
