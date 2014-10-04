@@ -98,16 +98,22 @@
     NSDate *dateFirstDayOfMonth = [NSDate dateWithYear:comp.year month:comp.month day:1];
     NSDateComponents *componentsFirstDayOfMonth = [NSDate componentsOfDate:dateFirstDayOfMonth];
     
-    NSDate *dateOfLabel = [NSDate dateWithYear:comp.year month:comp.month day:1+indexPath.row-(componentsFirstDayOfMonth.weekday-1)-7];
+    NSDate *dateOfLabel = [NSDate dateWithYear:comp.year month:comp.month day:1+indexPath.row-(componentsFirstDayOfMonth.weekday-2)-7];
     NSDateComponents *compDateOfLabel = [NSDate componentsOfDate:dateOfLabel];
     
     FFWeekHeaderCell *cell = (FFWeekHeaderCell *)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER_MONTH_CELL forIndexPath:indexPath];
     [cell cleanCell];
     cell.date = dateOfLabel;
     
-    [cell.label setText:[NSString stringWithFormat:@"%@, %i", [arrayWeekAbrev objectAtIndex:compDateOfLabel.weekday-1], compDateOfLabel.day]];
+    NSInteger index = compDateOfLabel.weekday-2;
+    if (index<0)
+        index = 6; //Riparto
+    else
+        index %= 7;
     
-    if (compDateOfLabel.weekday == 1 || compDateOfLabel.weekday == 7) {
+    [cell.label setText:[NSString stringWithFormat:@"%@, %i", [arrayWeekAbrev objectAtIndex:index], compDateOfLabel.day]];
+    
+    if (compDateOfLabel.weekday == 7) {
         [cell.label setTextColor:[UIColor grayColor]];
     }
     

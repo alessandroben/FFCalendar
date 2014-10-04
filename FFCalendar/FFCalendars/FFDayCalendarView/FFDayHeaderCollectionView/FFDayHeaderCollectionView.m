@@ -99,13 +99,19 @@
     NSDate *dateFirstDayOfMonth = [NSDate dateWithYear:comp.year month:comp.month day:1];
     NSDateComponents *componentsFirstDayOfMonth = [NSDate componentsOfDate:dateFirstDayOfMonth];
     
-    NSDate *dateOfLabel = [NSDate dateWithYear:comp.year month:comp.month day:1+indexPath.row-(componentsFirstDayOfMonth.weekday-1)-7];
+    NSDate *dateOfLabel = [NSDate dateWithYear:comp.year month:comp.month day:2+indexPath.row-(componentsFirstDayOfMonth.weekday-1)-7];
     NSDateComponents *compDateOfLabel = [NSDate componentsOfDate:dateOfLabel];
     
     FFDayHeaderCell *cell = (FFDayHeaderCell *)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER_MONTH_CELL forIndexPath:indexPath];
     [cell.button addTarget:self action:@selector(dayButton:) forControlEvents:UIControlEventTouchUpInside];
     cell.date = dateOfLabel;
-    [cell.button setTitle:[NSString stringWithFormat:@"%@, %i", [arrayWeekAbrev objectAtIndex:compDateOfLabel.weekday-1], compDateOfLabel.day] forState:UIControlStateNormal];
+    NSInteger index = compDateOfLabel.weekday-2;
+    if (index<0)
+        index = 6; //Riparto
+    else
+        index %= 7;
+    
+    [cell.button setTitle:[NSString stringWithFormat:@"%@, %i", [arrayWeekAbrev objectAtIndex:index], compDateOfLabel.day] forState:UIControlStateNormal];
     [cell.button setSelected:([NSDate isTheSameDateTheCompA:compDateOfLabel compB:[[FFDateManager sharedManager] currentDate].componentsOfDate])];
     cell.button.tag = indexPath.row;
     

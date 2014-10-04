@@ -90,7 +90,7 @@
     int lastDayMonth = [dateFirstDayOfMonth numberOfDaysInMonthCount];
     int numOfCellsInCollection = [dateFirstDayOfMonth numberOfWeekInMonthCount]*7;
     
-    for (int i=1-(componentsFirstDayOfMonth.weekday-1),j=numOfCellsInCollection-(componentsFirstDayOfMonth.weekday-1); i<=j; i++) {
+    for (int i=2-(componentsFirstDayOfMonth.weekday-1),j=numOfCellsInCollection-(componentsFirstDayOfMonth.weekday-1); i<=j; i++) {
         
         if (i >= 1 && i <= lastDayMonth){
             [arrayDates addObject:[NSDate dateWithYear:compDateManeger.year month:compDateManeger.month day:i]];
