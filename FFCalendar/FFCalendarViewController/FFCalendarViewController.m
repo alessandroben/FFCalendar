@@ -212,6 +212,8 @@
     for (UIButton *button in arrayButtons) {
         button.selected = (button == sender);
     }
+    
+    [self buttonTodayAction:nil];
 }
 
 - (IBAction)buttonTodayAction:(id)sender {

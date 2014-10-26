@@ -158,6 +158,9 @@
     eventNew.arrayWithGuests = tableViewGuests.arrayWithSelectedItens;
     eventNew.dataObject = event.dataObject;
     eventNew.delegate = event.delegate;
+    event.dateDay = buttonDate.dateOfButton;
+    event.dateTimeBegin = buttonTimeBegin.dateOfButton;
+    event.dateTimeEnd = buttonTimeEnd.dateOfButton;
     
     NSString *stringError;
     

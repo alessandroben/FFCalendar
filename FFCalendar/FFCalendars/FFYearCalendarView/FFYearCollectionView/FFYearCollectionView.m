@@ -84,7 +84,7 @@
 
     FFYearCell *cell = (FFYearCell *)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER_MONTH_CELL forIndexPath:indexPath];
     [cell initLayout];
-    [cell setDate:[NSDate dateWithYear:([[FFDateManager sharedManager] currentDate].componentsOfDate.year+(indexPath.section-1)) month:(indexPath.row+1) day:1]];
+    [cell setDate:[NSDate dateWithYear:([[FFDateManager sharedManager] currentDate].componentsOfDate.year+indexPath.section) month:(indexPath.row+1) day:1]];
 
     return cell;
 }
