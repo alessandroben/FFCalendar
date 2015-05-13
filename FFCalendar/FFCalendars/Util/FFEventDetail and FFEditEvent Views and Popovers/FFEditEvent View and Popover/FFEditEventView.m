@@ -15,11 +15,16 @@
 #import "FFSearchBarWithAutoComplete.h"
 #import "FFGuestsTableView.h"
 #import "ITObjectCacher.h"
+#import "ITClienti.h"
+#import "ITLocationBroker.h"
+#import "ITHQAnnotation.h"
+#import "ITAppuntamenti.h"
 
 #import "SVProgressHUD.h"
 
-@interface FFEditEventView () <UIGestureRecognizerDelegate>
+@interface FFEditEventView () <UIGestureRecognizerDelegate, MKMapViewDelegate>
 @property (nonatomic, strong) FFEvent *event;
+@property (nonatomic, strong) ITClienti *customer;
 @property (nonatomic, strong) UIButton *buttonCancel;
 @property (nonatomic, strong) UIButton *buttonDone;
 @property (nonatomic, strong) UIButton *buttonDelete;
@@ -36,6 +41,7 @@
 #pragma mark - Synthesize
 
 @synthesize protocol;
+@synthesize customer;
 @synthesize event;
 @synthesize buttonDone;
 @synthesize buttonCancel;
@@ -74,6 +80,8 @@
     if (self) {
         
         event = _event;
+        if (event.numCustomerID)
+            customer = [ITClienti customerWithPrimaryKey:[event numCustomerID]];
         
         [self setBackgroundColor:[UIColor lightGrayCustom]];
         [self.layer setBorderColor:[UIColor lightGrayCustom].CGColor];
@@ -93,7 +101,23 @@
         [self addtableViewGuests];
         [self addEventTyeSegmentedControl];
         
-        [self addEsitoButtonWithCustomView:self];
+        NSInteger esitoAppuntamento = 0;
+        if ([event.dataObject isKindOfClass:[ITAppuntamenti class]])
+            esitoAppuntamento = [event.dataObject esito];
+        else
+        {
+            Appointment *transitionAppointment = [Appointment MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"guid == %@",event.dataObject]];
+            esitoAppuntamento = [transitionAppointment.state integerValue];
+        }
+
+        if (esitoAppuntamento <= 0)
+            [self addEsitoButtonWithCustomView:self];
+        else
+            [self addNoteButtonWithCustomView:self];
+        
+        if(customer)
+            [self addCustomerLocationMapWithCustomView:self];
+
     }
     return self;
 }
@@ -105,6 +129,43 @@
     if (protocol != nil && [protocol respondsToSelector:@selector(removeThisView:)]) {
         [protocol removeThisView:self];
     }
+}
+
+-(void)addCustomerLocationMapWithCustomView:(UIView *)customView
+{
+    ITLocationPlace *customerPlace = [[ITLocationPlace alloc] init];
+    
+    customerPlace.indirizzo = customer.via;
+    customerPlace.citta = customer.citta;
+    customerPlace.cap = customer.cap;
+    customerPlace.province = customer.provincia;
+    customerPlace.stati = @"Italia";
+    
+    [[ITLocationBroker sharedBroker] geocodedCoordinatesFromLocaction:customerPlace withBlock:^(CLLocationCoordinate2D coordinates, NSError *message) {
+        
+        MKMapView *customerMap = [[MKMapView alloc] initWithFrame:CGRectMake(0,buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+140, customView.frame.size.width-70, 300)];
+
+        [customerMap setDelegate:self];
+        [customerMap setCenterCoordinate:coordinates];
+        
+        ITHQAnnotation *annotation = [[ITHQAnnotation alloc] initWithLatitudine:[NSString stringWithFormat:@"%.4f", coordinates.latitude] longitudine:[NSString stringWithFormat:@"%.4f", coordinates.longitude] titolo:customer.ragioneSociale sottoTitolo:customer.codice];
+        [customerMap addAnnotation:annotation];
+        
+        [customView addSubview:customerMap];
+        [customerMap setCenter:CGPointMake(customView.frame.size.width/2, customerMap.center.y)];
+    }];
+}
+
+-(void)addNoteButtonWithCustomView:(UIView *)customView
+{
+    UIButton *note = [[UIButton alloc] initWithFrame:CGRectMake(0,buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+70, customView.frame.size.width-70, 50)];
+    note.layer.cornerRadius = 5.0f;
+    note.backgroundColor = [UIColor colorWithHexString:@"2ecc71"];
+    [note addTarget:self action:@selector(noteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [note setTitle:@"Note" forState:UIControlStateNormal];
+    
+    [customView addSubview:note];
+    [note setCenter:CGPointMake(customView.frame.size.width/2, note.center.y)];
 }
 
 -(void)addEsitoButtonWithCustomView:(UIView *)customView
@@ -131,6 +192,14 @@
     
 //    [self addSubview:positive];
 //    [self addSubview:negative];
+}
+
+-(void)noteButtonPressed:(UIButton *)sender
+{
+    if([self.event.delegate respondsToSelector:@selector(eventNoteEditor:)])
+    {
+        [self.event.delegate eventNoteEditor:self.event];
+    }
 }
 
 -(void)esitoButtonPressed:(UIButton *)sender
@@ -332,6 +401,130 @@
     
     return !(searchBarCustom.arrayOfTableView.count != 0 && CGRectContainsPoint(searchBarCustom.tableViewCustom.frame, point)) &&
     CGRectContainsPoint(tableViewGuests.frame, point) && searchBarCustom.tableViewCustom.superview;
+}
+
+#pragma mark - MKMapViewDelegate
+
+-(void)mapView:(MKMapView *)mapView didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    //Comment this line to don't update showed region with user's region
+    //    MKCoordinateRegion mapRegion;
+    //    mapRegion.center = mapView.userLocation.coordinate;
+    //    mapRegion.span.latitudeDelta = 0.2;
+    //    mapRegion.span.longitudeDelta = 0.2;
+    //    [mapView setRegion:mapRegion animated:YES];
+}
+
+-(MKAnnotationView *)mapView:(MKMapView *)mymapView viewForAnnotation:(id)annotation
+{
+    if (annotation == mymapView.userLocation)
+    {
+        return nil;
+    }
+    
+    UIButton *collautButton = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    
+    MKPinAnnotationView *pin = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"Pin"];
+    pin.pinColor = MKPinAnnotationColorRed;
+    pin.canShowCallout = YES;
+    pin.rightCalloutAccessoryView = collautButton;
+    pin.animatesDrop = YES;
+    
+    return pin;
+}
+
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)annotationViews
+{
+    for (MKAnnotationView *annotationView in annotationViews)
+    {
+        // Don't pin drop if annotation is user location
+        if ([annotationView.annotation isKindOfClass:[MKUserLocation class]])
+        {
+            continue;
+        }
+        
+        // Check if current annotation is inside visible map rect, else go to next one
+        MKMapPoint point =  MKMapPointForCoordinate(annotationView.annotation.coordinate);
+        if (!MKMapRectContainsPoint(mapView.visibleMapRect, point)) {
+            continue;
+        }
+        
+        CGRect endFrame = annotationView.frame;
+        
+        // Move annotation out of view
+        annotationView.frame = CGRectMake(annotationView.frame.origin.x, annotationView.frame.origin.y - self.frame.size.height, annotationView.frame.size.width, annotationView.frame.size.height);
+        
+        // Animate drop
+        [UIView animateWithDuration:0.5 delay:0.04*[annotationViews indexOfObject:annotationView] options:UIViewAnimationCurveLinear animations:^{
+            
+            annotationView.frame = endFrame;
+            // Animate squash
+        }completion:^(BOOL finished) {
+            if (finished)
+            {
+                [UIView animateWithDuration:0.05 animations:^{
+                    annotationView.transform = CGAffineTransformMakeScale(1.0, 0.8);
+                    
+                }completion:^(BOOL finished){
+                    if (finished)
+                    {
+                        [UIView animateWithDuration:0.1 animations:^{
+                            annotationView.transform = CGAffineTransformIdentity;
+                        }];
+                    }
+                }];
+            }
+        }];
+    }
+}
+
+-(void)mapView:(MKMapView *)mapView annotationView:(MKPinAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    NSDictionary *addressDict = @{
+                                  (NSString *)kABPersonAddressCountryKey : @"IT",
+                                  (NSString *)kABPersonAddressCityKey : customer.citta,
+                                  (NSString *)kABPersonAddressStreetKey : customer.via,
+                                  (NSString *)kABPersonAddressZIPKey : customer.cap,
+                                  };
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // switch to a background thread and perform your expensive operation
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // switch back to the main thread to update your UI
+            
+            ITLocationPlace *locationPlace = [[ITLocationPlace alloc] init];
+            [locationPlace setCitta:customer.citta];
+            [locationPlace setIndirizzo:customer.via];
+            [locationPlace setStati:@"Italia"];
+            [locationPlace setCap:customer.cap];
+            
+            [[ITLocationBroker sharedBroker] geocodedCoordinatesFromLocaction:locationPlace withBlock:^(CLLocationCoordinate2D coordinates, NSError *message) {
+                if (message)
+                {
+                    if ([message.domain isEqualToString:kCLErrorDomain])
+                        [ITAlertView showErrorWithMessage:@"Impossibile localizzare il cliente!"];
+                    else
+                        [ITAlertView showErrorWithMessage:message.description];
+                }
+                else
+                {
+                    MKPlacemark *placeMark = [[MKPlacemark alloc] initWithCoordinate:coordinates addressDictionary:addressDict];
+                    
+                    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placeMark];
+                    BOOL isMapLoaded = [MKMapItem openMapsWithItems:@[mapItem] launchOptions:[NSDictionary dictionaryWithObject:MKLaunchOptionsDirectionsModeDriving forKey:MKLaunchOptionsDirectionsModeKey]];
+                    
+                    if (!isMapLoaded)
+                        [ITAlertView showErrorWithMessage:@"Non è stato possibile caricare le coordinate del cliente"];
+                }
+            }];
+        });
+    });
+}
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
+{
+    //
 }
 
 @end

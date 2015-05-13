@@ -24,6 +24,7 @@ typedef NS_ENUM(NSInteger, FFEventType) {
 
 @protocol FFEventDelegate <NSObject>
 
+-(void)eventNoteEditor:(id)event;
 -(void)event:(id)event changeStatus:(FFEventStatus)status;
 
 @end

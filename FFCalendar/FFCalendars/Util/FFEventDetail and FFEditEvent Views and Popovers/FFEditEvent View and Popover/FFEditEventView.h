@@ -9,6 +9,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
+#import <AddressBook/AddressBook.h>
 
 #import "FFEvent.h"
 
