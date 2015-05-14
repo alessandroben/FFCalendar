@@ -65,13 +65,13 @@
 }
 
 /*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect
-{
-    // Drawing code
-}
-*/
+ // Only override drawRect: if you perform custom drawing.
+ // An empty implementation adversely affects performance during animation.
+ - (void)drawRect:(CGRect)rect
+ {
+ // Drawing code
+ }
+ */
 
 - (id)initWithFrame:(CGRect)frame event:(FFEvent *)_event {
     
@@ -90,7 +90,7 @@
         UIGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTap:)];
         [gesture setDelegate:self];
         [self addGestureRecognizer:gesture];
-
+        
         [self addButtonCancel];
         [self addButtonDone];
         [self addSearchBar];
@@ -109,7 +109,7 @@
             Appointment *transitionAppointment = [Appointment MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"guid == %@",event.dataObject]];
             esitoAppuntamento = [transitionAppointment.state integerValue];
         }
-
+        
         if (esitoAppuntamento <= 0)
             [self addEsitoButtonWithCustomView:self];
         else
@@ -117,7 +117,7 @@
         
         if(customer)
             [self addCustomerLocationMapWithCustomView:self];
-
+        
     }
     return self;
 }
@@ -143,16 +143,19 @@
     
     [[ITLocationBroker sharedBroker] geocodedCoordinatesFromLocaction:customerPlace withBlock:^(CLLocationCoordinate2D coordinates, NSError *message) {
         
-        MKMapView *customerMap = [[MKMapView alloc] initWithFrame:CGRectMake(0,buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+140, customView.frame.size.width-70, 300)];
-
-        [customerMap setDelegate:self];
-        [customerMap setCenterCoordinate:coordinates];
-        
-        ITHQAnnotation *annotation = [[ITHQAnnotation alloc] initWithLatitudine:[NSString stringWithFormat:@"%.4f", coordinates.latitude] longitudine:[NSString stringWithFormat:@"%.4f", coordinates.longitude] titolo:customer.ragioneSociale sottoTitolo:customer.codice];
-        [customerMap addAnnotation:annotation];
-        
-        [customView addSubview:customerMap];
-        [customerMap setCenter:CGPointMake(customView.frame.size.width/2, customerMap.center.y)];
+        if (!message)
+        {
+            MKMapView *customerMap = [[MKMapView alloc] initWithFrame:CGRectMake(0,buttonTimeEnd.frame.origin.y+buttonTimeEnd.frame.size.height+140, customView.frame.size.width-70, 300)];
+            
+            [customerMap setDelegate:self];
+            [customerMap setCenterCoordinate:coordinates];
+            
+            ITHQAnnotation *annotation = [[ITHQAnnotation alloc] initWithLatitudine:[NSString stringWithFormat:@"%.4f", coordinates.latitude] longitudine:[NSString stringWithFormat:@"%.4f", coordinates.longitude] titolo:customer.ragioneSociale sottoTitolo:customer.codice];
+            [customerMap addAnnotation:annotation];
+            
+            [customView addSubview:customerMap];
+            [customerMap setCenter:CGPointMake(customView.frame.size.width/2, customerMap.center.y)];
+        }
     }];
 }
 
@@ -190,8 +193,8 @@
     [positive setCenter:CGPointMake(customView.frame.size.width/4+15, positive.center.y)];
     [negative setCenter:CGPointMake(customView.frame.size.width*3/4-15, positive.center.y)];
     
-//    [self addSubview:positive];
-//    [self addSubview:negative];
+    //    [self addSubview:positive];
+    //    [self addSubview:negative];
 }
 
 -(void)noteButtonPressed:(UIButton *)sender
@@ -238,7 +241,7 @@
     } else if (![self isTimeBeginEarlier:eventNew.dateTimeBegin timeEnd:eventNew.dateTimeEnd]) {
         stringError = @"Start time must occur earlier than end time.";
     } else if (eventNew.arrayWithGuests.count == 0) {
-//        stringError = @"Please select a guest.";
+        //        stringError = @"Please select a guest.";
     }
     
     if (stringError) {
@@ -271,7 +274,7 @@
         [protocol deleteEvent:event];
     }
     
-   [self buttonCancelAction:nil];
+    [self buttonCancelAction:nil];
 }
 
 #pragma mark - Tap Gesture
@@ -354,7 +357,7 @@
     tableViewGuests = [[FFGuestsTableView alloc] initWithFrame:CGRectMake(0, y, self.frame.size.width,buttonDelete.frame.origin.y-y-BUTTON_HEIGHT)];
     [tableViewGuests setAutoresizingMask:AR_WIDTH_HEIGHT];
     [tableViewGuests setArrayWithSelectedItens:event.arrayWithGuests];
-//    [self addSubview:tableViewGuests];
+    //    [self addSubview:tableViewGuests];
 }
 
 -(void)addEventTyeSegmentedControl {
