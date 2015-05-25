@@ -15,16 +15,20 @@
 #import "FFSearchBarWithAutoComplete.h"
 #import "FFGuestsTableView.h"
 #import "ITObjectCacher.h"
-#import "ITClienti.h"
 #import "ITLocationBroker.h"
 #import "ITHQAnnotation.h"
-#import "ITAppuntamenti.h"
+
+#import "ITSoggetti.h"
+#import "ITProvincia.h"
+#import "ITCap.h"
+#import "ITAttivita.h"
+#import "ITStatoAttivita.h"
 
 #import "SVProgressHUD.h"
 
 @interface FFEditEventView () <UIGestureRecognizerDelegate, MKMapViewDelegate>
 @property (nonatomic, strong) FFEvent *event;
-@property (nonatomic, strong) ITClienti *customer;
+@property (nonatomic, strong) ITSoggetti *customer;
 @property (nonatomic, strong) UIButton *buttonCancel;
 @property (nonatomic, strong) UIButton *buttonDone;
 @property (nonatomic, strong) UIButton *buttonDelete;
@@ -81,7 +85,7 @@
         
         event = _event;
         if (event.numCustomerID)
-            customer = [ITClienti customerWithPrimaryKey:[event numCustomerID]];
+            customer = [ITSoggetti customerWithPrimaryKey:[event numCustomerID]];
         
         [self setBackgroundColor:[UIColor lightGrayCustom]];
         [self.layer setBorderColor:[UIColor lightGrayCustom].CGColor];
@@ -102,8 +106,8 @@
         [self addEventTyeSegmentedControl];
         
         NSInteger esitoAppuntamento = 0;
-        if ([event.dataObject isKindOfClass:[ITAppuntamenti class]])
-            esitoAppuntamento = [event.dataObject esito];
+        if ([event.dataObject isKindOfClass:[ITAttivita class]])
+            esitoAppuntamento = [[[event.dataObject statoAttivita] codice] integerValue];
         else
         {
             Appointment *transitionAppointment = [Appointment MR_findFirstWithPredicate:[NSPredicate predicateWithFormat:@"guid == %@",event.dataObject]];
@@ -137,8 +141,8 @@
     
     customerPlace.indirizzo = customer.via;
     customerPlace.citta = customer.citta;
-    customerPlace.cap = customer.cap;
-    customerPlace.province = customer.provincia;
+    customerPlace.cap = customer.cap.codice;
+    customerPlace.province = customer.provincia.codice;
     customerPlace.stati = @"Italia";
     
     [[ITLocationBroker sharedBroker] geocodedCoordinatesFromLocaction:customerPlace withBlock:^(CLLocationCoordinate2D coordinates, NSError *message) {
@@ -500,7 +504,7 @@
             [locationPlace setCitta:customer.citta];
             [locationPlace setIndirizzo:customer.via];
             [locationPlace setStati:@"Italia"];
-            [locationPlace setCap:customer.cap];
+            [locationPlace setCap:customer.cap.codice];
             
             [[ITLocationBroker sharedBroker] geocodedCoordinatesFromLocaction:locationPlace withBlock:^(CLLocationCoordinate2D coordinates, NSError *message) {
                 if (message)

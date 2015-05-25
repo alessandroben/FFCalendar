@@ -9,7 +9,7 @@
 //
 
 #import "FFSearchBarWithAutoComplete.h"
-#import "ITClienti.h"
+#import "ITSoggetti.h"
 
 @interface FFSearchBarWithAutoComplete () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 @property (nonatomic, strong) NSMutableArray *arrayWithAllClients;
@@ -36,7 +36,7 @@
         arrayOfTableView = [NSMutableArray new];
         
         arrayWithAllClients = @[].mutableCopy;
-        for (ITClienti *currClient in [ITClienti fetchedObjectMatchingValues:@{} orderByClauses:nil])
+        for (ITSoggetti *currClient in [ITSoggetti fetchedObjectMatchingValues:@{} orderByClauses:nil])
         {
             [arrayWithAllClients addObject:@[currClient.primaryKey,currClient.ragioneSociale]];
         }
