@@ -103,6 +103,10 @@
         if ([NSDate isTheSameDateTheCompA:components compB:[NSDate componentsOfCurrentDate]]) {
             [cell markAsCurrentDay];
         }
+        
+        if ([self.dictEvents objectForKey:dateCell])
+            [cell markAsCurrentDay];
+
     }
     
     return cell;

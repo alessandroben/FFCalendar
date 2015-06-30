@@ -131,6 +131,10 @@
         if ([NSDate isTheSameDateTheCompA:components compB:[NSDate componentsOfCurrentDate]]) {
             [cell markAsCurrentDay];
         }
+        
+        if (cell.arrayEvents.count > 0)
+            [cell markAsCurrentDay];
+        
     }
     
     return cell;

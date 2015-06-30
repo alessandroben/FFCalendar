@@ -18,5 +18,6 @@
 @interface FFYearCollectionView : UICollectionView
 
 @property (nonatomic, strong) id<FFYearCollectionViewProtocol> protocol;
+@property (nonatomic, strong) NSMutableDictionary *dictEvents;
 
 @end

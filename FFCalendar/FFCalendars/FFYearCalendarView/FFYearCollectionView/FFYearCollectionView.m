@@ -53,6 +53,7 @@
     if (self) {
         // Initialization code
         
+        [[FFDateManager sharedManager] setCurrentDate:[NSDate date]];
         [self setBackgroundColor:[UIColor whiteColor]];
         
         [self setDataSource:self];
@@ -83,8 +84,9 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 
     FFYearCell *cell = (FFYearCell *)[collectionView dequeueReusableCellWithReuseIdentifier:REUSE_IDENTIFIER_MONTH_CELL forIndexPath:indexPath];
+    [cell setDictEvents:self.dictEvents];    
     [cell initLayout];
-    [cell setDate:[NSDate dateWithYear:([[FFDateManager sharedManager] currentDate].componentsOfDate.year+indexPath.section) month:(indexPath.row+1) day:1]];
+    [cell setDate:[NSDate dateWithYear:([[FFDateManager sharedManager] currentDate].componentsOfDate.year+indexPath.section-1) month:(indexPath.row+1) day:1]];
 
     return cell;
 }

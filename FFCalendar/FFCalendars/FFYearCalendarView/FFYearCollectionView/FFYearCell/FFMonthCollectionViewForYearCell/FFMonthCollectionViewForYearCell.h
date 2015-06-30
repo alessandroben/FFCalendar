@@ -13,5 +13,7 @@
 @interface FFMonthCollectionViewForYearCell : UICollectionView
 
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSMutableDictionary *dictEvents;
+
 
 @end

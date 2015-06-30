@@ -17,7 +17,10 @@
 
 @interface FFYearCalendarView : UIView
 
+- (id)initWithFrame:(CGRect)frame andEventsDictionary:(NSMutableDictionary *)dictionary;
+
 @property (nonatomic, strong) id<FFYearCalendarViewProtocol> protocol;
+@property (nonatomic, strong) NSMutableDictionary *dictEvents;
 
 - (void)invalidateLayout;
 

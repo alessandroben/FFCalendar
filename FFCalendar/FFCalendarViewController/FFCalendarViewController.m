@@ -181,7 +181,7 @@
     
     CGRect frame = CGRectMake(0., 0., self.view.frame.size.width, self.view.frame.size.height);
     
-    viewCalendarYear = [[FFYearCalendarView alloc] initWithFrame:frame];
+    viewCalendarYear = [[FFYearCalendarView alloc] initWithFrame:frame andEventsDictionary:dictEvents];
     [viewCalendarYear setProtocol:self];
     [self.view addSubview:viewCalendarYear];
     
@@ -255,6 +255,7 @@
     
     dictEvents = (NSMutableDictionary *)dict;
     
+    [viewCalendarYear setDictEvents:dictEvents];
     [viewCalendarMonth setDictEvents:dictEvents];
     [viewCalendarWeek setDictEvents:dictEvents];
     [viewCalendarDay setDictEvents:dictEvents];

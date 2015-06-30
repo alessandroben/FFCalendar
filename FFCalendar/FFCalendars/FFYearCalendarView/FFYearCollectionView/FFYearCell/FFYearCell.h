@@ -13,6 +13,8 @@
 @interface FFYearCell : UICollectionViewCell
 
 @property (nonatomic, strong) NSDate *date;
+@property (nonatomic, strong) NSMutableDictionary *dictEvents;
+
 
 - (void)initLayout;
 

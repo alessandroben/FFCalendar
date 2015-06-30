@@ -44,6 +44,27 @@
     return self;
 }
 
+- (id)initWithFrame:(CGRect)frame andEventsDictionary:(NSMutableDictionary *)dictionary
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        // Initialization code
+
+        self.dictEvents = dictionary;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dateChanged:) name:DATE_MANAGER_DATE_CHANGED object:nil];
+        [self setBackgroundColor:[UIColor whiteColor]];
+        
+        collectionViewYear = [[FFYearCollectionView alloc] initWithFrame:CGRectMake(SPACE_COLLECTIONVIEW_CELL_YEAR, SPACE_COLLECTIONVIEW_CELL_YEAR, self.frame.size.width-2*SPACE_COLLECTIONVIEW_CELL_YEAR, self.frame.size.height-2*SPACE_COLLECTIONVIEW_CELL_YEAR) collectionViewLayout:[FFYearCollectionViewFlowLayout new]];
+        [collectionViewYear setProtocol:self];
+        [collectionViewYear setDictEvents:self.dictEvents];
+        [self addSubview:collectionViewYear];
+        
+        [self setAutoresizingMask: AR_WIDTH_HEIGHT];
+        [collectionViewYear setAutoresizingMask:AR_WIDTH_HEIGHT | AR_TOP_BOTTOM];
+    }
+    return self;
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
