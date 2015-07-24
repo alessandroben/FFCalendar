@@ -75,11 +75,6 @@
 }
 
 - (IBAction)buttonDoneAction:(id)sender {
-    
-    // SVProgressHUD
-    [[SVProgressHUD sharedView] setTintColor:[UIColor blackColor]];
-    [[SVProgressHUD sharedView] setBackgroundColor:[UIColor lighterGrayCustom]];
-    
     FFEvent *eventNew = [FFEvent new];
     eventNew.stringCustomerName = searchBarCustom.stringClientName;
     eventNew.numCustomerID = searchBarCustom.numCustomerID;
